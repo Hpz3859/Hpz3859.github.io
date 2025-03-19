@@ -177,7 +177,7 @@ h6 {
     font-size: 1.5em; } }
 
 sub {
-  font-size: 0.8em;
+  font-size: 0.8em; 
   position: relative;
   top: 0.5em; }
 
@@ -991,7 +991,7 @@ section.special, article.special {
 
 header p {
   font-family: "Roboto Slab", serif;
-  font-size: 1em;
+  font-size: 1em; 
   font-weight: 400;
   letter-spacing: 0.075em;
   margin-top: -0.5em;
@@ -1005,6 +1005,16 @@ header.major > :last-child {
 
 header.main > :last-child {
   margin: 0 0 1em 0; }
+
+/* 自定义的随笔字体*/
+.monments-section p {
+  font-family: 'SimSun', '宋体', sans-serif;
+  font-size: 16px; /* 设置字体大小为 16px */
+  color: #3d4449; /* 设置文本颜色为深灰色 */
+  line-height: 2; /* 设置行高为 1.8 */
+  margin: 15px 0; /* 设置上下外边距 */
+  text-indent: 2em; /* 设置首行缩进 */
+}
 
 /* Form */
 form {
