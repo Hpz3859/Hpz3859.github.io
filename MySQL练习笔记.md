@@ -136,7 +136,7 @@ left join Employee m on m.id=e.managerId
 where e.salary > m.salary; 
 ```
 
-- :exclamation:在SQL中，`NULL`值在比较操作中被视为“未知”或“不确定”，因此任何与`NULL`的比较都会返回`FALSE`。具体到你的问题，如果`managerSalary`（即`m.salary`）为`NULL`，条件`e.salary > m.salary`会返回`FALSE`，因此这些记录不会被`WHERE`子句过滤后的结果集包含
+- :exclamation:在SQL中，`NULL`值在比较操作中被视为“未知”或“不确定”，因此任何与`NULL`的比较都会返回`FALSE`。具体到该问题中，如果`managerSalary`（即`m.salary`）为`NULL`，条件`e.salary > m.salary`会返回`FALSE`，因此这些记录不会被`WHERE`子句过滤后的结果集包含
 
 [跳转到目录](#catalog)
 
@@ -191,17 +191,12 @@ where e.salary > m.salary;
   ON e.departmentId = d.id;
   ```
 
-- `FULL JOIN`返回两表并集
-
-  ```sql
-  SELECT *
-  FROM table1
-  FULL JOIN table2
-  ON table1.column = table2.column;
-  ```
+- `FULL JOIN`——`UNION`返回两表并集
 
   **注意**：MySQL原生并不支持`FULL JOIN`，但可以通过`UNION`操作模拟：
-
+  
+  即左连接UNION右连接
+  
   ```sql
   SELECT *
   FROM table1
@@ -213,7 +208,7 @@ where e.salary > m.salary;
   RIGHT JOIN table2
   ON table1.column = table2.column;
   ```
-
+  
 - `CROSS JOIN`用于返回两个表的笛卡尔积，即左表的每一行与右表的每一行进行组合。
 
   结果集的行数是左表行数与右表行数的乘积。
@@ -621,4 +616,4 @@ WHERE rkn = 1;
   limit 1;
   ```
 
-  - 
+  - 更简洁一些

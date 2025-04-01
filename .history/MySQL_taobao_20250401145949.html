@@ -1,0 +1,518 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Doreen project1</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="MySQL_taobao.html" class="logo"><strong>Doreen</strong> MySQL Project1</a>
+									
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>基于MySQL和Tableau的淘宝用户行为分析</h1>
+									</header>
+
+									<!-- Content -->
+									<hr class="major" />
+
+									<div class="content">
+										
+										<h2 id="1">1. 数据与项目说明</h2>
+										<h3 id="1.1">1.1 数据说明</h3>
+										<p><a href='https://tianchi.aliyun.com/dataset/649'>淘宝用户购物行为数据集_数据集-阿里云天池</a></p>
+										<p>本数据集包含了2017年11月25日至2017年12月3日之间，有行为的约一百万随机用户的所有行为（行为包括点击、购买、加购、喜欢）。数据集的组织形式和MovieLens-20M类似，即数据集的每一行表示一条用户行为，由用户ID、商品ID、商品类目ID、行为类型和时间戳组成，并以逗号分隔。关于数据集中每一列的详细描述如下：</p>
+										<figure class='table-figure'><table>
+										<thead>
+										<tr><th style='text-align:left;' >列名称</th><th style='text-align:left;' >说明</th></tr></thead>
+										<tbody><tr><td style='text-align:left;' >用户ID</td><td style='text-align:left;' >整数类型，序列化后的用户ID</td></tr><tr><td style='text-align:left;' >商品ID</td><td style='text-align:left;' >整数类型，序列化后的商品ID</td></tr><tr><td style='text-align:left;' >商品类目ID</td><td style='text-align:left;' >整数类型，序列化后的商品所属类目ID</td></tr><tr><td style='text-align:left;' >行为类型</td><td style='text-align:left;' >字符串，枚举类型，包括(&#39;pv&#39;, &#39;buy&#39;, &#39;cart&#39;, &#39;fav&#39;)</td></tr><tr><td style='text-align:left;' >时间戳</td><td style='text-align:left;' >行为发生的时间戳</td></tr></tbody>
+										</table></figure>
+										<p>注意到，用户行为类型共有四种，它们分别是</p>
+										<figure class='table-figure'><table>
+										<thead>
+										<tr><th style='text-align:left;' >行为类型</th><th style='text-align:left;' >说明</th></tr></thead>
+										<tbody><tr><td style='text-align:left;' >pv</td><td style='text-align:left;' >商品详情页pv，等价于点击</td></tr><tr><td style='text-align:left;' >buy</td><td style='text-align:left;' >商品购买</td></tr><tr><td style='text-align:left;' >cart</td><td style='text-align:left;' >将商品加入购物车</td></tr><tr><td style='text-align:left;' >fav</td><td style='text-align:left;' >收藏商品</td></tr></tbody>
+										</table></figure>
+										<p>关于数据集大小的一些说明如下</p>
+										<figure class='table-figure'><table>
+										<thead>
+										<tr><th style='text-align:left;' >维度</th><th style='text-align:left;' >数量</th></tr></thead>
+										<tbody><tr><td style='text-align:left;' >用户数量</td><td style='text-align:left;' >987,994</td></tr><tr><td style='text-align:left;' >商品数量</td><td style='text-align:left;' >4,162,024</td></tr><tr><td style='text-align:left;' >用户数量</td><td style='text-align:left;' >987,994</td></tr><tr><td style='text-align:left;' >商品类目数量</td><td style='text-align:left;' >9,439</td></tr><tr><td style='text-align:left;' >所有行为数量</td><td style='text-align:left;' >100,150,807</td></tr></tbody>
+										</table></figure>
+										<h3 id="1.2">1.2 项目说明</h3>
+										<p>本项目参考<a href='https://lusuzi.com/tech/mysql-practice-project-doc/'>《MySQL实战》项目文档 | LuSuZi</a>和<a href='https://blog.csdn.net/qiyamoqi/article/details/118634076'>使用MySQL进行数据分析——以淘宝用户数据为例_利用mysql做简单分析-CSDN博客</a></p>
+										<p>在此基础上增加细节讲解、改进、分析</p>
+
+
+									</div>
+																				
+								
+									<hr class="major" />
+
+									<div class="content">
+										<h2 id='2'>2. 数据预处理</h2>
+										<h3 id="2.1">2.1 python数据预处理</h3>
+										<p>因为实战中用MySQL预处理1亿条多数据时，查空查重老是超时，所以在导入前先用Python进行数据预处理</p>
+										<pre><code class='language-python' lang='python'>import csv
+
+										input_file = &#39;D:/MySQL/MySQL_projects/taobao/UserBehavior.csv&#39;
+
+										# 读取文件到dataframe，分别给每列命名为user_id, item_id, category_id, behavior, timestamp
+										import pandas as pd
+										data = pd.read_csv(input_file, header=None, names=[&#39;user_id&#39;, &#39;item_id&#39;, &#39;category_id&#39;, &#39;behavior&#39;, &#39;timestamp&#39;])
+
+
+										## 时间戳处理
+										# 将数据按照timestamp的顺序排序
+										data = data.sort_values(by=[&#39;timestamp&#39;])
+
+										# 将timestamp转换为datetime格式
+										data[&#39;datetimes&#39;] = pd.to_datetime(data[&#39;timestamp&#39;], unit=&#39;s&#39;)
+										# 将日期和时间分开
+										data[&#39;date&#39;] = data[&#39;datetimes&#39;].dt.date
+										# 将时间转换为小时
+										data[&#39;hour&#39;] = data[&#39;datetimes&#39;].dt.hour
+										# 只保留需要的列
+										data = data[[&#39;user_id&#39;, &#39;item_id&#39;, &#39;category_id&#39;, &#39;behavior&#39;,&#39;datetimes&#39;, &#39;date&#39;, &#39;hour&#39;]]
+
+										# 查看数据的前几行
+										data.head()
+										</code></pre>
+										<pre><code class='language-python' lang='python'># 查找空值
+										data.isnull().sum()
+										</code></pre>
+										<p><img src="D:\Github\Hpz3859.github.io\images\mysql_taobao\图2.png" alt="图2" style="zoom: 67%;" /></p>
+										<p>&nbsp;</p>
+										<pre><code class='language-python' lang='python'># 查找重复值，即所有列都相同的行
+										data.duplicated().sum()
+										</code></pre>
+										<p>49</p>
+										<pre><code class='language-python' lang='python'># 去除重复值
+										data = data.drop_duplicates()
+
+										# 去除 不在&#39;2017-11-25 00:00:00&#39;和&#39;2017-12-03 23:59:59&#39;之间的数据
+										data = data[(data[&#39;datetimes&#39;] &gt;= &#39;2017-11-25 00:00:00&#39;) &amp; (data[&#39;datetimes&#39;] &lt;= &#39;2017-12-03 23:59:59&#39;)]
+
+										# 计算列数
+										data.shape[0]
+										</code></pre>
+										<p>98914533</p>
+										<pre><code class='language-python' lang='python'># 重新设置索引
+										data = data.reset_index(drop=True)
+
+										# 增加id列，从1自增
+										data[&#39;id&#39;] = range(1, data.shape[0] + 1)
+										data.head()
+
+										</code></pre>
+										<p><img src="D:\Github\Hpz3859.github.io\images\mysql_taobao\图3.png" alt="图3" style="zoom:50%;" /></p>
+										<ul>
+										<li><p>为什么需要自增一列id？</p>
+										<p>因为在实战中发现，设置没有主键，会导致后续查询结果非常非常慢，而等导入1亿多条数据之后再ALTER表设自增列，运行非常慢，我的电脑跑不动，所以我在python数据预处理中就先设了自增列</p>
+										</li>
+
+										</ul>
+										<pre><code class='language-python' lang='python'># 将数据保存到新的csv文件中
+										output_file = &#39;D:/MySQL/MySQL_projects/taobao/UserBehavior_processed.csv&#39;
+										data.to_csv(output_file, index=False)
+										</code></pre>
+
+										<h3 id="2.2">2.2 MySQL数据预处理</h3>
+										<p>如果电脑性能可以，也可以尝试用MySQL进行数据处理</p>
+										<pre><code class='language-mysql' lang='mysql'>-- 数据预处理
+										-- 检查空值
+
+										-- 粗略检查空值
+										SELECT COUNT(*) FROM user_behavior WHERE user_id IS NULL;   -- user_id无空值
+										SELECT COUNT(*) FROM user_behavior WHERE item_id IS NULL;	-- item_id无空值
+										SELECT COUNT(*) FROM user_behavior WHERE category_id IS NULL;	
+										SELECT COUNT(*) FROM user_behavior WHERE behavior_type IS NULL;
+										SELECT COUNT(*) FROM user_behavior WHERE times IS NULL;
+
+										-- 如有空值，检查具体的
+										select user_id,item_id from user_behavior where user_id is null;
+										select user_id,item_id from user_behavior where item_id is null;
+										select user_id,item_id,category_id from user_behavior where category_id is null;
+										select user_id,item_id,behavior_type from user_behavior where behavior_type is null;
+										select user_id,item_id,times from user_behavior where times is null;
+
+										-- 检查重复值
+										select user_id,item_id,times from user_behavior
+										group by user_id,item_id,times
+										having count(*)&gt;1;
+
+										-- 查看重复值详情（因为先用python处理过重复值，这里有重复值就感觉很奇怪）
+										select user_id,item_id,behavior_type,times
+										from user_behavior
+										where user_id=625642 and item_id=1149592 and times = 1512229143;
+
+										-- 如果有重复值，则去重
+										delete user_behavior 
+										from user_behavior,
+										(
+											select user_id,item_id,times from user_behavior
+											group by user_id,item_id,times
+											having count(*)&gt;1
+											) dup
+										where user_behavior.user_id = dup.user_id
+											and user_behavior.item_id = dup.item_id
+											and user_behavior.times = dup.times
+											and user_behavior.id &gt; dup.id
+										;
+
+										</code></pre>
+										<p>&nbsp;</p>
+
+
+
+
+									</div>
+
+									<hr class="major" />
+
+									<div class="content">
+										
+										<h2 id="3">3. 数据导入</h2>
+										<h3 id="3.1">3.1 普通代码导入</h3>
+										<pre><code class='language-mysql' lang='mysql'>CREATE DATABASE taobao;
+										use taobao;
+
+										DROP TABLE IF EXISTS user_behavior;
+										CREATE TABLE user_behavior (
+											id int primary key,
+											user_id INT,
+											item_id INT,
+											category_id INT,
+											behavior_type VARCHAR(5),
+											times int
+										);
+
+
+										LOAD DATA INFILE &#39;D:/MySQL/MySQL Server 8.0/Uploads/UserBehavior_clean.csv&#39; 
+										INTO TABLE user_behavior 
+										FIELDS TERMINATED BY &#39;,&#39;
+										ENCLOSED BY &#39;&quot;&#39;
+										LINES TERMINATED BY &#39;\n&#39;
+										IGNORE 1 ROWS;
+
+										-- 设置表index提升搜索速度
+										ALTER TABLE user_behavior ADD INDEX idx_user_id (user_id); -- 141s
+										CREATE INDEX idx_item_id ON user_behavior (item_id);		-- 154s
+										CREATE INDEX idx_category_id ON user_behavior (category_id); -- 165s
+										CREATE INDEX idx_behavior_type ON user_behavior (behavior_type);  -- 191s
+										CREATE INDEX idx_times ON user_behavior (times); -- 160s
+
+
+										select count(1) from user_behavior;
+
+										desc user_behavior;
+										</code></pre>
+										<p><img src="D:\Github\Hpz3859.github.io\images\mysql_taobao\图4.png" alt="图4" style="zoom: 80%;" /></p>
+										<p><img src="D:\Github\Hpz3859.github.io\images\mysql_taobao\图5.png" alt="图5" style="zoom:50%;" /></p>
+										<h4 id="3.1.1">MySQL参数设置</h4>
+										<p>我在尝试寻找空值：</p>
+										<pre><code>select * from user_behavior where user_id is null;
+										</code></pre>
+										<p>返回</p>
+										<p><font color=red>Error Code: 2013. Lost connection to MySQL server during query</font></p>
+										<p>可能的原因有：</p>
+										<ol>
+										<li><strong>查询超时</strong></li>
+
+										</ol>
+										<pre><code class='language-mysql' lang='mysql'>SHOW VARIABLES LIKE &#39;wait_timeout&#39;;
+										SHOW VARIABLES LIKE &#39;interactive_timeout&#39;;
+										SHOW VARIABLES LIKE &#39;net_read_timeout&#39;;
+										SHOW VARIABLES LIKE &#39;connect_timeout&#39;;
+										</code></pre>
+										<p>如果这些时间设定得过短，可以增加到如下：</p>
+										<pre><code class='language-mysql' lang='mysql'>SET GLOBAL wait_timeout = 600;
+										SET GLOBAL interactive_timeout = 600;
+										SET GLOBAL net_read_timeout = 600;
+										SET GLOBAL connect_timeout = 600;
+										</code></pre>
+										<p>但是更改设定之后，问题仍然没被解决，说明问题另有原因。</p>
+										<ol start='2' >
+										<li><strong>数据量过大，服务器资源限制</strong></li>
+
+										</ol>
+										<pre><code class='language-mysql' lang='mysql'>-- 查询缓冲池
+										SHOW VARIABLES LIKE &#39;innodb_buffer_pool_size&#39;;		-- 查询
+										</code></pre>
+										<p>以我的电脑为例，第一句查询返回的默认设置是128MB，这个设置对于处理包含1亿条数据的表来说是<font color=red>过小的</font></p>
+										<pre><code> &#39;innodb_buffer_pool_size&#39;, &#39;134217728&#39;
+										</code></pre>
+										<ul>
+										<li><code>134217728</code> 是 128MB 的原因是因为它表示的是字节数（Bytes）。在计算机中，1MB（兆字节）等于 (1024 \times 1024) 字节（Bytes），因此可以通过以下计算来验证：</li>
+
+										</ul>
+										<div contenteditable="false" spellcheck="false" class="mathjax-block md-end-block md-math-block md-rawblock" id="mathjax-n341" cid="n341" mdtype="math_block" data-math-tag-before="0" data-math-tag-after="0" data-math-labels="[]"><div class="md-rawblock-container md-math-container" tabindex="-1"><mjx-container class="MathJax" jax="SVG" display="true" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="53.536ex" height="2.007ex" role="img" focusable="false" viewBox="0 -683 23663 887" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.462ex;" class="in-text-selection"><defs><path id="MJX-4-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-4-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path id="MJX-4-TEX-N-38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path><path id="MJX-4-TEX-N-4D" d="M132 622Q125 629 121 631T105 634T62 637H29V683H135Q221 683 232 682T249 675Q250 674 354 398L458 124L562 398Q666 674 668 675Q671 681 683 682T781 683H887V637H854Q814 636 803 634T785 622V61Q791 51 802 49T854 46H887V0H876Q855 3 736 3Q605 3 596 0H585V46H618Q660 47 669 49T688 61V347Q688 424 688 461T688 546T688 613L687 632Q454 14 450 7Q446 1 430 1T410 7Q409 9 292 316L176 624V606Q175 588 175 543T175 463T175 356L176 86Q187 50 261 46H278V0H269Q254 3 154 3Q52 3 37 0H29V46H46Q78 48 98 56T122 69T132 86V622Z"></path><path id="MJX-4-TEX-N-42" d="M131 622Q124 629 120 631T104 634T61 637H28V683H229H267H346Q423 683 459 678T531 651Q574 627 599 590T624 512Q624 461 583 419T476 360L466 357Q539 348 595 302T651 187Q651 119 600 67T469 3Q456 1 242 0H28V46H61Q103 47 112 49T131 61V622ZM511 513Q511 560 485 594T416 636Q415 636 403 636T371 636T333 637Q266 637 251 636T232 628Q229 624 229 499V374H312L396 375L406 377Q410 378 417 380T442 393T474 417T499 456T511 513ZM537 188Q537 239 509 282T430 336L329 337H229V200V116Q229 57 234 52Q240 47 334 47H383Q425 47 443 53Q486 67 511 104T537 188Z"></path><path id="MJX-4-TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJX-4-TEX-N-D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path><path id="MJX-4-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-4-TEX-N-34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path><path id="MJX-4-TEX-N-A0" d=""></path><path id="MJX-4-TEX-N-79" d="M69 -66Q91 -66 104 -80T118 -116Q118 -134 109 -145T91 -160Q84 -163 97 -166Q104 -168 111 -168Q131 -168 148 -159T175 -138T197 -106T213 -75T225 -43L242 0L170 183Q150 233 125 297Q101 358 96 368T80 381Q79 382 78 382Q66 385 34 385H19V431H26L46 430Q65 430 88 429T122 428Q129 428 142 428T171 429T200 430T224 430L233 431H241V385H232Q183 385 185 366L286 112Q286 113 332 227L376 341V350Q376 365 366 373T348 383T334 385H331V431H337H344Q351 431 361 431T382 430T405 429T422 429Q477 429 503 431H508V385H497Q441 380 422 345Q420 343 378 235T289 9T227 -131Q180 -204 113 -204Q69 -204 44 -177T19 -116Q19 -89 35 -78T69 -66Z"></path><path id="MJX-4-TEX-N-74" d="M27 422Q80 426 109 478T141 600V615H181V431H316V385H181V241Q182 116 182 100T189 68Q203 29 238 29Q282 29 292 100Q293 108 293 146V181H333V146V134Q333 57 291 17Q264 -10 221 -10Q187 -10 162 2T124 33T105 68T98 100Q97 107 97 248V385H18V422H27Z"></path><path id="MJX-4-TEX-N-65" d="M28 218Q28 273 48 318T98 391T163 433T229 448Q282 448 320 430T378 380T406 316T415 245Q415 238 408 231H126V216Q126 68 226 36Q246 30 270 30Q312 30 342 62Q359 79 369 104L379 128Q382 131 395 131H398Q415 131 415 121Q415 117 412 108Q393 53 349 21T250 -11Q155 -11 92 58T28 218ZM333 275Q322 403 238 411H236Q228 411 220 410T195 402T166 381T143 340T127 274V267H333V275Z"></path><path id="MJX-4-TEX-N-73" d="M295 316Q295 356 268 385T190 414Q154 414 128 401Q98 382 98 349Q97 344 98 336T114 312T157 287Q175 282 201 278T245 269T277 256Q294 248 310 236T342 195T359 133Q359 71 321 31T198 -10H190Q138 -10 94 26L86 19L77 10Q71 4 65 -1L54 -11H46H42Q39 -11 33 -5V74V132Q33 153 35 157T45 162H54Q66 162 70 158T75 146T82 119T101 77Q136 26 198 26Q295 26 295 104Q295 133 277 151Q257 175 194 187T111 210Q75 227 54 256T33 318Q33 357 50 384T93 424T143 442T187 447H198Q238 447 268 432L283 424L292 431Q302 440 314 448H322H326Q329 448 335 442V310L329 304H301Q295 310 295 316Z"></path><path id="MJX-4-TEX-N-33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path><path id="MJX-4-TEX-N-37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-4-TEX-N-31"></use><use data-c="32" xlink:href="#MJX-4-TEX-N-32" transform="translate(500,0)"></use><use data-c="38" xlink:href="#MJX-4-TEX-N-38" transform="translate(1000,0)"></use></g><g data-mml-node="mtext" transform="translate(1500,0)"><use data-c="4D" xlink:href="#MJX-4-TEX-N-4D"></use><use data-c="42" xlink:href="#MJX-4-TEX-N-42" transform="translate(917,0)"></use></g><g data-mml-node="mo" transform="translate(3402.8,0)"><use data-c="3D" xlink:href="#MJX-4-TEX-N-3D"></use></g><g data-mml-node="mn" transform="translate(4458.6,0)"><use data-c="31" xlink:href="#MJX-4-TEX-N-31"></use><use data-c="32" xlink:href="#MJX-4-TEX-N-32" transform="translate(500,0)"></use><use data-c="38" xlink:href="#MJX-4-TEX-N-38" transform="translate(1000,0)"></use></g><g data-mml-node="mo" transform="translate(6180.8,0)"><use data-c="D7" xlink:href="#MJX-4-TEX-N-D7"></use></g><g data-mml-node="mn" transform="translate(7181,0)"><use data-c="31" xlink:href="#MJX-4-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-4-TEX-N-30" transform="translate(500,0)"></use><use data-c="32" xlink:href="#MJX-4-TEX-N-32" transform="translate(1000,0)"></use><use data-c="34" xlink:href="#MJX-4-TEX-N-34" transform="translate(1500,0)"></use></g><g data-mml-node="mo" transform="translate(9403.2,0)"><use data-c="D7" xlink:href="#MJX-4-TEX-N-D7"></use></g><g data-mml-node="mn" transform="translate(10403.4,0)"><use data-c="31" xlink:href="#MJX-4-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-4-TEX-N-30" transform="translate(500,0)"></use><use data-c="32" xlink:href="#MJX-4-TEX-N-32" transform="translate(1000,0)"></use><use data-c="34" xlink:href="#MJX-4-TEX-N-34" transform="translate(1500,0)"></use></g><g data-mml-node="mtext" transform="translate(12403.4,0)"><use data-c="A0" xlink:href="#MJX-4-TEX-N-A0"></use><use data-c="42" xlink:href="#MJX-4-TEX-N-42" transform="translate(250,0)"></use><use data-c="79" xlink:href="#MJX-4-TEX-N-79" transform="translate(958,0)"></use><use data-c="74" xlink:href="#MJX-4-TEX-N-74" transform="translate(1486,0)"></use><use data-c="65" xlink:href="#MJX-4-TEX-N-65" transform="translate(1875,0)"></use><use data-c="73" xlink:href="#MJX-4-TEX-N-73" transform="translate(2319,0)"></use></g><g data-mml-node="mo" transform="translate(15394.2,0)"><use data-c="3D" xlink:href="#MJX-4-TEX-N-3D"></use></g><g data-mml-node="mn" transform="translate(16450,0)"><use data-c="31" xlink:href="#MJX-4-TEX-N-31"></use><use data-c="33" xlink:href="#MJX-4-TEX-N-33" transform="translate(500,0)"></use><use data-c="34" xlink:href="#MJX-4-TEX-N-34" transform="translate(1000,0)"></use><use data-c="32" xlink:href="#MJX-4-TEX-N-32" transform="translate(1500,0)"></use><use data-c="31" xlink:href="#MJX-4-TEX-N-31" transform="translate(2000,0)"></use><use data-c="37" xlink:href="#MJX-4-TEX-N-37" transform="translate(2500,0)"></use><use data-c="37" xlink:href="#MJX-4-TEX-N-37" transform="translate(3000,0)"></use><use data-c="32" xlink:href="#MJX-4-TEX-N-32" transform="translate(3500,0)"></use><use data-c="38" xlink:href="#MJX-4-TEX-N-38" transform="translate(4000,0)"></use></g><g data-mml-node="mtext" transform="translate(20950,0)"><use data-c="A0" xlink:href="#MJX-4-TEX-N-A0"></use><use data-c="42" xlink:href="#MJX-4-TEX-N-42" transform="translate(250,0)"></use><use data-c="79" xlink:href="#MJX-4-TEX-N-79" transform="translate(958,0)"></use><use data-c="74" xlink:href="#MJX-4-TEX-N-74" transform="translate(1486,0)"></use><use data-c="65" xlink:href="#MJX-4-TEX-N-65" transform="translate(1875,0)"></use><use data-c="73" xlink:href="#MJX-4-TEX-N-73" transform="translate(2319,0)"></use></g></g></g></svg></mjx-container></div></div>
+										<ul>
+										<li><p>在计算机存储中，单位换算关系如下：</p>
+										<p><strong>1KB（千字节）</strong> = 1024 字节（Bytes）</p>
+										<p><strong>1MB（兆字节）</strong> = 1024KB = (1024 \times 1024) 字节</p>
+										<p><strong>1GB（吉字节）</strong> = 1024MB = (1024 \times 1024 \times 1024) 字节</p>
+										</li>
+										<li><p>在 MySQL 中，配置文件和命令行中通常直接使用字节数（Bytes）来表示内存大小。例如：<code>1024</code> 表示 1KB，<code>1048576</code> 表示 1MB，<code>1073741824</code> 表示 1GB</p>
+										</li>
+										<li><p><code>innodb_buffer_pool_size</code> 指定了 InnoDB 存储引擎用于缓存表数据和索引的内存量。简单来说，它是一个内存区域，InnoDB 会将最近访问的数据和索引存储在这里，以便后续的查询可以直接从内存中读取，而无需每次都从磁盘读取。</p>
+										</li>
+										<li><p><code>innodb_buffer_pool_size</code> 的设置对数据库性能有着直接的影响：</p>
+										<p><strong>设置过小</strong></p>
+										<ul>
+										<li><strong>性能瓶颈</strong>：如果 <code>innodb_buffer_pool_size</code> 设置过小，缓存空间有限，无法容纳足够的数据和索引，导致频繁的磁盘 I/O 操作，查询性能会显著下降。</li>
+										<li><strong>高延迟</strong>：对于大型表或高并发查询，每次查询都需要从磁盘读取数据，响应时间会变长，用户体验变差。</li>
+
+										</ul>
+										<p><strong>设置过大</strong></p>
+										<ul>
+										<li><strong>内存不足</strong>：如果 <code>innodb_buffer_pool_size</code> 设置过大，可能会占用过多的系统内存，导致其他应用程序或操作系统本身可用内存不足，从而引发内存交换（swap）。</li>
+										<li><strong>内存交换（Swap）</strong>：当系统内存不足时，操作系统会将部分内存数据交换到磁盘上，这会进一步降低数据库性能，甚至可能导致系统崩溃。</li>
+
+										</ul>
+										</li>
+
+										</ul>
+										<pre><code class='language-mysql' lang='mysql'>SET GLOBAL innodb_buffer_pool_size = 4294967296;	-- 设定为4G
+										</code></pre>
+										<p>以我的电脑为例，内存为16G，我将缓冲池大小设置为4G（因为1亿条数据的csv文件大小为3G，所以我估摸着设置了4G）</p>
+										<p>问题得以解决</p>
+										<p>&nbsp;</p>
+										<h4 id="3.1.2">截取5百万条数据做后续分析</h4>
+										<p>因为硬件条件一般，后续分析中跑完整的1亿条数据时间过长，容易爆内存，<font color=red>故决定只截取五百万条数据完成后续分析</font>，截取方式按照user_id排序截取，确保截取到的单个用户的行为尽可能完整</p>
+										<pre><code class='language-mysql' lang='mysql'>-- 原数据量实在是太大了，所以随机抽取5000000条做项目
+										drop table user_behavior2;
+										create table user_behavior2 like user_behavior;
+										-- 截取 
+										INSERT INTO user_behavior2
+										SELECT * 
+										FROM user_behavior
+										ORDER BY user_id, times
+										;
+
+
+										-- 创建临时表，做测试用
+										create table temp_behavior like user_behavior;
+
+										-- 截取 
+										INSERT INTO temp_behavior
+										SELECT * 
+										FROM user_behavior
+										ORDER BY RAND() -- 随机
+										LIMIT 100000;
+
+										select * from temp_behavior;
+										</code></pre>
+										<h4 id="3.1.3">分区的可能、MySQL中的循环</h4>
+										<p>在实战尝试中，为了保持数据完整性，我尝试过对初始表进行分区，确实能解决爆内存的问题，可是我按照日期分区后，对于在单个user_id的分组查询任务反而会降低效用，只能循环每一个分区查得分组的user_id后再把表上下连接到一起，故放弃用分区表完成整个分析。以下是我对分区的尝试，以及自动化循环每个分区查询的实现：</p>
+										<pre><code class='language-mysql' lang='mysql'>-- 创建分区表
+										CREATE TABLE user_behavior (
+											id int,
+											user_id INT,
+											item_id INT,
+											category_id INT,
+											behavior_type VARCHAR(5),
+											datetimes datetime,
+											dates date,
+											hours int,
+											PRIMARY KEY (`id`, `dates`)
+										) 
+										PARTITION BY RANGE COLUMNS(dates) (
+											PARTITION p0 VALUES LESS THAN (&#39;2017-11-26&#39;),
+											PARTITION p1 VALUES LESS THAN (&#39;2017-11-27&#39;),
+											PARTITION p2 VALUES LESS THAN (&#39;2017-11-28&#39;),
+											PARTITION p3 VALUES LESS THAN (&#39;2017-11-29&#39;),
+											PARTITION p4 VALUES LESS THAN (&#39;2017-11-30&#39;),
+											PARTITION p5 VALUES LESS THAN (&#39;2017-12-01&#39;),
+											PARTITION p6 VALUES LESS THAN (&#39;2017-12-02&#39;),
+											PARTITION p7 VALUES LESS THAN (&#39;2017-12-03&#39;),
+											PARTITION p8 VALUES LESS THAN MAXVALUE
+										);
+
+										-- 通过 INFORMATION_SCHEMA 查询表分区
+										SELECT PARTITION_NAME 
+										FROM INFORMATION_SCHEMA.PARTITIONS 
+										WHERE TABLE_NAME = &#39;user_behavior&#39; AND PARTITION_NAME IS NOT NULL;
+
+										-- ########################################################################
+										-- 浏览深度 pv/uv
+
+										-- 循环读取各个分区，自动化处理（使用存储过程）
+										drop PROCEDURE pv_pu_partitions;
+
+										DELIMITER $$
+
+										CREATE PROCEDURE pv_pu_partitions()
+										BEGIN
+											DECLARE done INT DEFAULT False;
+											DECLARE p VARCHAR(64);
+											DECLARE cur CURSOR FOR (
+											SELECT PARTITION_NAME 
+											FROM INFORMATION_SCHEMA.PARTITIONS 
+											WHERE 
+												TABLE_NAME = &#39;user_behavior&#39; 
+												AND PARTITION_NAME IS NOT NULL
+												AND TABLE_SCHEMA = &#39;taobao_p&#39; 
+										);
+											DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = True;
+
+											-- 创建临时表存储结果
+											DROP TEMPORARY TABLE IF EXISTS temp_result;
+											CREATE TEMPORARY TABLE temp_result (
+												dates DATE,
+												hours INT,
+												pv INT,
+												uv INT
+											);
+
+											OPEN cur;
+
+											read_loop: LOOP
+												FETCH cur INTO p;
+												IF done THEN
+													LEAVE read_loop;
+												END IF;
+
+												-- 动态拼接 SQL 并执行
+												SET @sql = CONCAT(
+													&quot;INSERT INTO temp_result &quot;,
+													&quot;SELECT dates, hours, SUM(IF(behavior_type = &#39;pv&#39;, 1, 0)) AS pv, COUNT(DISTINCT user_id) AS uv &quot;,
+													&quot;FROM user_behavior PARTITION (&quot;, p, &quot;) &quot;,
+													&quot;GROUP BY dates, hours&quot;
+												);
+												PREPARE stmt FROM @sql;
+												EXECUTE stmt;
+												DEALLOCATE PREPARE stmt;
+											END LOOP;
+
+											CLOSE cur;
+										END$$
+
+										DELIMITER ;
+
+										-- 调用process_partitions
+										call pv_pu_partitions; -- 187s
+
+										SELECT * FROM temp_result;
+
+										DROP TEMPORARY TABLE IF EXISTS temp_result;
+										select * from pv_uv;
+										</code></pre>
+										<p>&nbsp;</p>
+										<h3 id="'3.2">3.2 kettle方法</h3>
+										<p>由于数据量非常大，用workbench导入都会卡顿，爆内存；用语句导入时间长又无法查看导入进度，所以根据参考文档和视频，下载并运用kettle进行数据的导入</p>
+										<ol>
+										<li>jdk的下载</li>
+
+										</ol>
+										<p>华为镜像：<a href='https://repo.huaweicloud.com/java/jdk/' target='_blank' class='url'>https://repo.huaweicloud.com/java/jdk/</a></p>
+										<p><a href='https://blog.csdn.net/drzeno/article/details/120754220'>java JDK 8 官网下载网址/清华镜像/华为镜像_jdk8镜像下载-CSDN博客</a></p>
+										<ol start='2' >
+										<li>kettle</li>
+
+										</ol>
+										<p><a href='https://blog.csdn.net/guiliangfeng/article/details/143946632'>Windows环境下Kettle 9.4 的下载安装配置和部署_kettle工具下载-CSDN博客</a></p>
+										<p>导入过程同视频</p>
+										<p>检查导入成功与否</p>
+										<pre><code class='language-mysql' lang='mysql'>select count(1) from user_behavior;
+										</code></pre>
+
+
+									</div>
+
+									<hr class="major" />
+
+									<div class="content">
+										
+										<h2 id="tableau-visualization">3. Tableau可视化展示与分析</h2>
+										<div class='tableauPlaceholder' id='viz1743403952021' style='position: relative'><noscript><a href='#'><img alt='淘宝用户行为分析 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;8R&#47;8R4YM3R4Z&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;8R4YM3R4Z' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;8R&#47;8R4YM3R4Z&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='zh-CN' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1743403952021');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='800px';vizElement.style.height='827px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='800px';vizElement.style.height='827px';} else { vizElement.style.width='100%';vizElement.style.height='3127px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</div>
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>目录</h2>
+									</header>
+									<ul>
+										<ul>
+											<li><a href="#data-description">1. 数据与项目说明</a></li>
+											<li><a href="#data-details">1.1 数据说明</a></li>
+											<li><a href="#project-overview">1.2 项目说明</a></li>
+											<li><a href="#data-import">2. 数据导入</a></li>
+											<li><a href="#kettle-method">2.1 Kettle的办法</a></li>
+											<li><a href="#tableau-visualization">3. Tableau可视化展示与分析</a></li>
+										</ul>
+										<li><a href="./index.html">主页</a></li>
+										
+										<li>
+											<span class="opener">文章</span>
+											<ul>
+												<li><a href="experience.html">过往经历</a></li>
+												<li><a href="#">数据挖掘</a></li>
+												<li><a href="#">量化与投资</a></li>
+												<li><a href="moments.html">随笔</a></li>
+											</ul>
+										</li>
+										<li>
+											<span class="opener">视频</span>
+											<ul>
+												<li><a href="#">待更新</a></li>
+												<li><a href="#">待更新</a></li>
+											</ul>
+										</li>
+					
+									</ul>
+								</nav>
+
+
+							<!-- Footer -->
+							 <!--
+								<footer id="footer">
+									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+							-->
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
