@@ -1,0 +1,900 @@
+<html > 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+</head>
+<body>
+<style>
+    html,body,div,p{margin:0;padding:0}
+    body{font-size:14px;font-family:"microsoft yahei";background-color:#ffffff}
+    table{border-collapse:collapse;border-spacing:0;table-layout:fixed}
+    th,td{font-size:14px;padding:0}
+    a{text-decoration:none}
+    img{border:0 none}
+    .blue{text-decoration:none;color:#3c3d5d}
+    .chead{width:1002px}
+    .chead .logo{width:698px;height:90px}
+    .chead .txt{width:152px;height:90px}
+    .column{width:1002px;line-height:28px;border:1px solid #dedede}
+    .column .hbox{width:185px;height:154px}
+    .column .head{display:block;background-color:#fafafa}
+    .column .box{width:100%;background-color:#ffffff;border-top:2px solid #f2f3f5}
+    .column .box1{width:100%;word-wrap:break-word;color:#ffffff;background-color:#3f4160}
+    .column .box2{width:100%;background-color:#f8f9fa}
+    .column .tba{width:940px;padding:0 30px 15px}
+    .column .tbb{width:940px;padding:0 30px}
+    .column .tb1{width:900px;line-height:28px;color:#333333;word-break:break-all;padding:0 20px}
+    .column .tb2{width:430px;padding:0 20px}
+    .column .tb3{width:900px;padding:15px 20px 15px 0}
+    .column .gray,.column .gray2{color:#999999;word-break:break-all}
+    .column .gray2{color:#666666}
+    .column .plate1,.column .plate2{width:430px;height:54px;font-size:16px;font-weight:bold;color:#818ba3}
+    .column .plate1{width:900px;padding:0 50px}
+    .column .plate1 .f16{font-size:14px;font-weight:normal;color:#333333}
+    .column .plate1 .f12{font-size:12px;font-weight:normal;color:#999999}
+    .column .keys,.column .keys2{width:85px;line-height:28px;color:#666666}
+    .column .keys2{width:110px}
+    .column .txt1,.column .txt2,.column .txt3{width:815px;line-height:28px;color:#333333;word-break:break-all}
+    .column .txt2{width:345px}
+    .column .txt3{width:auto;max-width:815px;font-size:14px;font-weight:bold}
+    .column .txt4{width:305px;color:#ffffff;word-break:break-all}
+    .column .infr{width:767px;color:#ffffff;table-layout:auto}
+    .column .vam,.column .grcha{vertical-align:middle;margin-left:5px}
+    .column .box1 .vam{margin-right:5px;margin-left:0}
+    .column .name{font-size:24px;padding-bottom:18px}
+    .column .icard{color:#a1a3ae;padding-bottom:18px}
+    .column .con{border-top:1px dotted #ddd}
+    .column .pr20{width:225px;padding-right:20px}
+    .column .time{width:120px;line-height:28px;color:#666666;padding-left:20px}
+    .column .rtbox{width:765px;line-height:28px;color:#333333;padding:0 20px 0 15px;word-break:break-all}
+    .column .hai,.column .guan{line-height:18px;font-size:12px;color:#ffffff;vertical-align:text-top;margin-left:5px;padding:1px 3px;background-color:#3cbe7f;border-radius:2px}
+    .column .guan{background-color:#ff9f20}
+    .column .tag{display:inline-block;word-break:break-all;}
+    .column .all{color:#666;padding:10px 20px;background-color:#fafafa}
+    .column .tit{width:900px;height:40px;color:#666666;padding:0 20px;background-color:#f5f5f5}
+    .column .p15{padding:15px 0}
+    .column .p5{display:inline-block;color:#666666;padding:0 5px;}
+    .column .cell .skill{width:165px;text-align:right;padding-right:15px}
+    .column .cell .skbg,.column .cell .skco{display:inline-block;width:245px;height:18px;line-height:18px;font-size:12px;color:#ffffff;vertical-align:top;margin-top:6px;background-color:#dddddd;border-radius:20px;}
+    .column .cell .skco{width:235px;font-style:normal;margin-top:0;padding-left:10px;background-color:#ff9f20;z-index:3}
+    .column .sl .skco{width:173px}
+    .column .lh .skco{width:112px}
+    .column .yb .skco{width:51px}
+    .column .fbox strong{font-size:14px;font-weight:bold}
+    .column .cha{font-size:12px;font-weight:normal;color:#00457d;margin-left:5px}
+    .column .cha1{font-size:14px}
+    .column .cha:hover{color:#ff6000}
+    .column .email{width:330px}
+	.column .bbf{border-bottom:1px dotted #ddd;}
+	
+    .eng td,.eng .txt3,.eng .fbox strong{font-size:13px;font-family:'Arial'}
+    .eng .txt1,.eng .rtbox,.eng .phd{width:775px;font-size:13px;font-family:'Arial';line-height:28px}
+    .eng .txt2{width:305px}
+    .eng .txt4{width:245px}
+    .eng .cell .txt3{width:120px}
+    .eng .time,.eng .keys{width:110px;font-size:13px;text-align:right}
+    .eng .cell .skill{width:130px}
+    .eng .phd{padding-left:145px}
+    .eng .keys{padding-right:15px}
+    .eng .pr20{width:205px}
+    .eng .pr20 .keys{width:100px}
+    .eng .email{width:270px}
+    /* adjust */
+    .column .tba{ width: 900px; padding: 0 50px 15px; }
+    .column .tb1{ padding-left:0; padding-right:0; }
+    .column .tb2{ padding-left:0; width:450px; }
+    .column .pd_20{ padding-left:20px; padding-right:20px; }
+    .h_16{ height:16px; }
+    .schHead img{ display:block; }
+    .column .schGood{ line-height: 18px; font-size: 12px; color: #F87203; vertical-align: text-top; margin-left:4px; padding: 1px 3px; background-color: #FFEDE5; border-radius: 2px; }
+    .column .p_12{ padding-left:12px; }
+    .column .time{ text-align:right; }
+    .column .schTime{ width:115px; }
+    .companyLogo p{ width: 50px; height: 50px; background: #F0F0F0; border-radius: 8px; border: 1px solid #DDDDDD; text-align: center; overflow: hidden;}
+    .companyLogo p img{ display: inline-block; vertical-align: middle;max-width:100%;max-height:100%;}
+    .companyLogo p i{ display: inline-block; height: 100%; width: 0; vertical-align: middle;}
+
+</style>
+<table cellpadding="0" cellspacing="0" align="center" bgcolor="#fff" class="column">
+    <tbody >
+        <tr>
+            <td valign="top">
+                <!--基本信息-->
+                <table cellspacing="0" cellpadding="0" border="0" class="box1">
+                    <tbody>
+                        <tr>
+                            <td class="hbox" align="middle">
+                                <img src="https://i.51job.com/resume/ajax/image.php?type=avatar&userid=486670936&key=072d5267a9d843fca644ce779cf3f2ed&1745395688" width="85" height="104" class="head" alt="头像">
+                            </td>
+                            <td>
+                                <table cellspacing="0" cellpadding="0" border="0" class="infr">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" class="name">胡坪芝                                                <img class="rz" src="https://img01.51jobcdn.com/im/2021/my/authentication/my_certification_done_resume2x.png" width="52" height="20" alt="已认证">                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" colspan="3">
+                                                <p>
+                                                <img class="vam" src="https://img01.51jobcdn.com/im/2016/resume/y4.png" width="20" height="20" />
+                                                女                                                <span class="p5">|</span>
+                                                22 岁 (2002/11)                                                <span class="p5">|</span>
+                                                暂无经验                                                <span class="p5">|</span>
+                                                                                                共青团员                                                <span class="p5">|</span>
+                                                                                                现居住北京-昌平区                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                                                            <td valign="top">
+                                                    <img class="vam" src="https://img01.51jobcdn.com/im/2016/resume/y2.png" width="20" height="20" />182****3859                                                </td>
+                                                                                                                                        <td valign="top">
+                                                    <table cellspacing="0" cellpadding="0" border="0" class="email">
+                                                    <tbody>
+                                                        <tr>
+                                                        <td valign="top" width="25">
+                                                            <img class="vam" src="https://img01.51jobcdn.com/im/2016/resume/y3.png" width="20" height="20" />
+                                                        </td>
+                                                        <td valign="top" class="txt4">h1828600****@163.com</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                                                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--自我评价-->
+                                    <table cellspacing="0" cellpadding="0" border="0" class="box">
+                        <tbody>
+                        <tr>
+                            <td class="plate1">
+                                个人优势                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tba">
+                                <table cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td class="tb1">
+                                            个人主页：https://hpz3859.github.io/experience.html<br><br>1. 快速学习新知的能力——曾用2天从0基础到完全理解html语言并搭建好个人网站；用4天从0基础到熟悉python并取得第一份量化的实习工作，且工作能力受leader好评；用5天时间从0基础到能利用mysql处理90%的实际数据问题并产出项目报告<br><br>2. 不断探索新知的兴趣和执行力——主流的AI工具都能灵活使用，曾自学用ps精修了20张宿舍毕业照片<br><br>3. 强烈的责任感——小组作业个人负责的部分均远超过标准水平完成，只要是交到我手上的活儿我都会想尽办法做好                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                                <!--求职意向-->
+                                <table cellspacing="0" cellpadding="0" border="0" class="box">
+                    <tbody>
+                    <tr>
+                        <td class="plate1">求职意向</td>
+                    </tr>
+                                        <tr>
+                        <td class="tba">
+                            <table cellspacing="0" cellpadding="0" border="0">
+                                <tbody>
+                                                                                                    <tr>
+                                        <td class="p15 bbf">
+                                            <table cellspacing="0" cellpadding="0" border="0">
+                                                <tbody>
+                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望职位：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">量化策略实习生&nbsp;&nbsp;</span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                            <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望城市：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">北京</span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望月薪：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                            4千-5千/月                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                            <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望行业：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">
+                                                                    金融/投资/证券&nbsp;&nbsp;                                                                </span>
+                                                                                                                                                            <span class="tag">
+                                                                    银行&nbsp;&nbsp;                                                                </span>
+                                                                                                                                                            <span class="tag">
+                                                                    计算机服务(系统、数据服务、维修)                                                                </span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">工作类型：</td>
+                                                                        <td valign="top" class="txt2">实习</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                    </tr>
+                                                                                                                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                                                    <tr>
+                                        <td class="p15 bbf">
+                                            <table cellspacing="0" cellpadding="0" border="0">
+                                                <tbody>
+                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望职位：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">业务分析经理/主管&nbsp;&nbsp;</span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                            <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望城市：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">北京&nbsp;</span>
+                                                                                                                                                            <span class="tag">成都&nbsp;</span>
+                                                                                                                                                            <span class="tag">重庆</span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望月薪：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                            5千-1万/月                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                            <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望行业：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">
+                                                                    金融/投资/证券&nbsp;&nbsp;                                                                </span>
+                                                                                                                                                            <span class="tag">
+                                                                    会计/审计&nbsp;&nbsp;                                                                </span>
+                                                                                                                                                            <span class="tag">
+                                                                    批发/零售                                                                </span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">工作类型：</td>
+                                                                        <td valign="top" class="txt2">实习</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                    </tr>
+                                                                                                                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                                                    <tr>
+                                        <td class="p15 bbf">
+                                            <table cellspacing="0" cellpadding="0" border="0">
+                                                <tbody>
+                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望职位：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">数据分析师&nbsp;&nbsp;</span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                            <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望城市：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">北京&nbsp;</span>
+                                                                                                                                                            <span class="tag">重庆&nbsp;</span>
+                                                                                                                                                            <span class="tag">成都</span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望月薪：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                            5千-1万/月                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                            <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">期望行业：</td>
+                                                                        <td valign="top" class="txt2">
+                                                                                                                                                            <span class="tag">
+                                                                    计算机服务(系统、数据服务、维修)&nbsp;&nbsp;                                                                </span>
+                                                                                                                                                            <span class="tag">
+                                                                    批发/零售&nbsp;&nbsp;                                                                </span>
+                                                                                                                                                            <span class="tag">
+                                                                    快速消费品(食品、饮料、化妆品)                                                                </span>
+                                                                                                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                    <td class="tb2" valign="top">
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" class="keys">工作类型：</td>
+                                                                        <td valign="top" class="txt2">实习</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                                                                                                                                    </tr>
+                                                                                                                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                                                            <td class="tba">
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                            <tr>
+                                <td class="tb2" valign="top">
+                                    <table cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                        <tr>
+                                            <td valign="top" class="keys">求职状态：</td>
+                                            <td valign="top" class="txt2">观望有好机会会考虑</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="tb2" valign="top">
+                                    <table cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                        <tr>
+                                            <td valign="top" class="keys">到岗时间：</td>
+                                            <td valign="top" class="txt2">1个月内</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                                        </tbody>
+                </table>
+                                <!--工作经验-->
+                                    <table cellspacing="0" cellpadding="0" border="0" class="box">
+                        <tbody>
+                            <tr>
+                                <td class="plate1">工作经验</td>
+                            </tr>
+                            <tr>
+                                <td class="tbb">
+                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                                                                                                                        <tr>
+                                                                                            <td class="p15 pd_20">
+                                                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="52" height="52" rowspan="2" class="companyLogo">
+                                                                    <p><img src="https://img04.51jobcdn.com/im/mkt/app/51job_phone/app/homelogo/home_logo_default.png" alt="" width="48" height="48"><i></i></p>
+                                                                </td>
+
+                                                                <td class="phd tb1 p_12">
+                                                                    <strong>佐原投资管理有限公司</strong><span class="gray">&nbsp;（4个月）</span>                                                                </td>
+                                                                <td valign="top" class="time">2022/11-2023/3</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top" class="tb1 p_12" colspan="3">
+                                                                    <span>量化策略实习生</span>
+                                                                                                                                            <span>(实习)</span>
+                                                                                                                                    </td>
+                                                            </tr>
+                                                             <tr>
+                                                                <td class="h_16" colspan="3"></td>
+                                                            </tr>
+                                                                                                                            <tr>
+                                                                    <td class="phd tb1 gray2" colspan="3">金融/投资/证券</td>
+                                                                </tr>
+                                                                                                                                                                                                                                                        <tr>
+                                                                    <td class="tb1" colspan="3">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td valign="top" class="keys">工作描述：</td>
+                                                                                    <td valign="top" class="txt1">1. 述职：利用Python处理并分析中国股市日度数据；并基于组长提供的交易逻辑编写代码实现策略回测<br><br>2. 业绩：参与并完成因子计算、因子打分、股票池构建、风格打分、单因子测试等13个项目的代码编写与数据分析<br><br>3. 能力：熟练使用python，熟练使用Wind、Tushare、Baostock等API，熟练使用掘金量化</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                                                                                                                                        <tr>
+                                                                                            <td class="p15 con pd_20">
+                                                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="52" height="52" rowspan="2" class="companyLogo">
+                                                                    <p><img src="https://img04.51jobcdn.com/im/mkt/app/51job_phone/app/homelogo/home_logo_default.png" alt="" width="48" height="48"><i></i></p>
+                                                                </td>
+
+                                                                <td class="phd tb1 p_12">
+                                                                    <strong>上海证券研究所</strong><span class="gray">&nbsp;（2个月）</span>                                                                </td>
+                                                                <td valign="top" class="time">2021/11-2022/1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top" class="tb1 p_12" colspan="3">
+                                                                    <span>行业研究员</span>
+                                                                                                                                            <span>(实习)</span>
+                                                                                                                                    </td>
+                                                            </tr>
+                                                             <tr>
+                                                                <td class="h_16" colspan="3"></td>
+                                                            </tr>
+                                                                                                                                                                                                                                                        <tr>
+                                                                    <td class="tb1" colspan="3">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td valign="top" class="keys">工作描述：</td>
+                                                                                    <td valign="top" class="txt1">1. 述职：协助分析师搜集、整理行业资料和数据，进行行业动态的分析，并撰写行业报告初稿<br><br>2. 业绩：利用Excel完成21张报告内图表的制作，完成智能穿戴设备的行业分析报告的底稿撰写<br><br>3. 能力：掌握行业报告撰写的逻辑与框架，拥有数据可视化及报告编写能力</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                                                                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                                <!-- 项目经验 -->
+                                    <table cellspacing="0" cellpadding="0" border="0" class="box">
+                        <tbody>
+                            <tr>
+                                <td class="plate1">项目经验</td>
+                            </tr>
+                            <tr>
+                                <td class="tba">
+                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                                                                            <tr>
+                                                                                                    <td class="p15">
+                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="phd tb1">
+                                                                    <strong>基于MySQL和Tableau的淘宝用户行为分析</strong>
+                                                                </td>
+                                                                <td valign="top" class="time">2025/2-2025/3</td>
+                                                            </tr>
+                                                                                                                                                                                                                                                        <tr>
+                                                                    <td class="tb1" colspan="2">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td valign="top" class="keys">项目描述：</td>
+                                                                                    <td valign="top" class="txt1">1. 项目介绍: 对百万条淘宝用户行为数据进行了获客情况、留存情况、用户行为路径、商品转化率等分析,并可视化<br><br>2. 主要工作: 独立完成整个项目,利用MySQL对5百万条包含五个字段的表格进行处理,并计算浏览深度、n日留存率、用户转化率、RFM模型等指标,并最终用Tableau进行可视化,在个人网页上集合最终结果<br><br>3. 结果: 分析发现淘宝用户在周六和周日更活跃,在每日晚上九点到十点间最活跃(活动数量加大、浏览深度提高);用户购买转化率平均仅有2.44%,可能反应出推荐算法有待提高;七日留存率为98%且跳失率仅有0.0082%,反应平台用户粘性高<br><br>4. 能力: 熟练掌握MySQL的数据处理和Tableau的数据可视化<br><br>5. 项目链接：https://hpz3859.github.io/MySQL_taobao.html</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                                                    <tr>
+                                                                                                    <td class="p15">
+                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="phd tb1">
+                                                                    <strong>基于文本挖掘的投资者情绪量化策略研究</strong>
+                                                                </td>
+                                                                <td valign="top" class="time">2024/1-2024/5</td>
+                                                            </tr>
+                                                                                                                                                                                                                                                        <tr>
+                                                                    <td class="tb1" colspan="2">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td valign="top" class="keys">项目描述：</td>
+                                                                                    <td valign="top" class="txt1">1. 项目介绍：本科毕业论文。借助Python爬虫技术从东方财富股吧抓取投资者评论数据，运用BERT模型对文本进行编码处理，并结合神经网络技术预测投资者情绪值，成功构建出投资者情绪指数和个股情绪值。再利用Fama-Macbeth方法对构建的情绪因子进行有效性检验，并据此设计出基于情绪因子的多空投资组合策略<br><br>2.结论：成功构建情绪预测模型，测试集准确率为81%，构建的沪深300情绪指数与收盘指数相关系数高达0.87，日度情绪因子组合在2013到2023年间的累计超额收益率为23.31% <br><br>3. 能力：熟练掌握Python、熟练使用selenium.webdriver爬虫技能爬取网站内容、熟练使用云服务器、熟悉Linux系统命令操作<br><br>4. 项目链接：https://github.com/Hpz3859/Undergraduate-Thesis</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                                                    <tr>
+                                                                                                    <td class="p15">
+                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="phd tb1">
+                                                                    <strong>招商银行第七季Fintech训练营初赛</strong>
+                                                                </td>
+                                                                <td valign="top" class="time">2023/5-2023/6</td>
+                                                            </tr>
+                                                                                                                            <tr>
+                                                                    <td class="tb1" colspan="2">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td valign="top" class="keys">所属公司：</td>
+                                                                                    <td valign="top" class="txt1">无</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                                                                                                                                                                                                        <tr>
+                                                                    <td class="tb1" colspan="2">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td valign="top" class="keys">项目描述：</td>
+                                                                                    <td valign="top" class="txt1">数据分析与建模:使用主成分回归模型进行数据分析,预测用户未来15天内是否做出某行为<br>竞赛结果:最终精确度为63%,在初赛中排名第212(前10%),证明了数据分析与问题解决的能力</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                                            </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                                <!--教育经历-->
+                                    <table class="box">
+                        <tbody>
+                            <tr>
+                                <td class="plate1">教育经历</td>
+                            </tr>
+                            <tr>
+                                <td class="tba">
+                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                                                                                                                        <tr>
+                                                                                                    <td class="p15">
+                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                                                                                <td rowspan="2" class="schHead">
+                                                                    <img src="https://img01.51jobcdn.com/im/school/%25E4%25B8%25AD%25E5%25A4%25AE%25E8%25B4%25A2%25E7%25BB%258F%25E5%25A4%25A7%25E5%25AD%25A6.jpg" alt="" width="52" height="52"> 
+                                                                </td>
+                                                                                                                                <td valign="top" class="rtbox p_12">
+                                                                    <strong>中央财经大学</strong>
+                                                                                                                                                                                                            <span class="schGood">211</span>
+                                                                                                                                                                                                        </td>
+                                                                <td valign="top" class="time schTime">2020/9-2024/6</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="rtbox p_12" colspan="2">
+                                                                    本科                                                                        <span class="p5">|</span>
+                                                                                                                                                金融工程                                                                </td>
+                                                            </tr>
+                                                                                                                    </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                                                                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                                <!--在校情况-->
+                                    <table cellspacing="0" cellpadding="0" border="0" class="box">
+                        <tbody>
+                            <tr>
+                                <td class="plate1">在校情况</td>
+                            </tr>
+                            <tr>
+                                <td class="tbb">
+                                <!--校内荣誉-->
+                                                                <!--校内职务-->
+                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="tit">校内职务</td>
+                                            </tr>
+                                                                                                                                        <tr>
+                                                                                                        <td class="p15 pd_20">
+                                                                                                            <table cellspacing="0" cellpadding="0" border="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td valign="top" class="tb1">
+                                                                    <strong class="txt3">21级金融科技双培班助教</strong>
+                                                                    </td>
+                                                                    <td valign="top" class="time">2022/9-2023/7</td>
+                                                                </tr>
+                                                                                                                                    <tr>
+                                                                    <td class="tb1" colspan="2">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                            <td valign="top" class="keys">职务描述：</td>
+                                                                            <td valign="top" class="txt1">1. 述职：在概率论与数理统计、计量经济学两门课程担任助教，每周独立授课90分钟，梳理知识内容并讲解习题和答疑<br><br>2. 业绩：帮助班级超80%的同学在概率论与数理统计课程上、超50%的同学在计量经济学课程上取得90分以上的成绩<br><br>3. 能力：对概率论与数理统计、计量模型的相关知识的扎实掌握、良好的表达沟通能力、出色的问题解决能力</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                    </tr>
+                                                                                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                                                                                                        <tr>
+                                                                                                        <td class="p15 pd_20 con">
+                                                                                                            <table cellspacing="0" cellpadding="0" border="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td valign="top" class="tb1">
+                                                                    <strong class="txt3">金融学院新闻宣传中心干事</strong>
+                                                                    </td>
+                                                                    <td valign="top" class="time">2020/9-2021/6</td>
+                                                                </tr>
+                                                                                                                                    <tr>
+                                                                    <td class="tb1" colspan="2">
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                            <td valign="top" class="keys">职务描述：</td>
+                                                                            <td valign="top" class="txt1">1. 述职：先在文案组、摄影组和编辑组轮值，后固定工作于文案组，负责撰写并编辑新闻稿<br><br>2. 业绩：撰写了11篇新闻稿，制作八张公众号推文封面，参与排版编辑4篇<br><br>3. 能力：掌握了微信公众号、创客贴、InDesign等工具的使用、提升了宣传文稿撰写能力、展现了良好的团队合作与执行能力</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                    </tr>
+                                                                                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                                                                                                </tbody>
+                                    </table>
+                                                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                                <!--技能特长-->
+                                    <table cellspacing="0" cellpadding="0" border="0" class="box">
+                        <tbody>
+                            <tr>
+                                <td class="plate1">
+                                技能特长                                    <span class="f12">（包含IT技能、语言能力、证书、成绩、培训经历）</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tbb">
+                                    <!--技能/语言-->
+                                                                            <table cellspacing="0" cellpadding="0" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="tit">技能/语言</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="p15">
+                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                            <tbody>
+                                                                                                                                                                                                                                                                        <tr>
+                                                                                                                                                                                                                    <td class="tb2 cell lh" valign="top">
+                                                                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                <td class="skill">
+                                                                                    <strong class="txt3">英语</strong>
+                                                                                </td>
+                                                                                <td valign="top">
+                                                                                    <span class="skbg">
+                                                                                    <span class="skco">良好</span>
+                                                                                    </span>
+                                                                                </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                                                                                                                                                                                                                                                                                                                                                                        <td class="tb2 cell sl" valign="top">
+                                                                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                <td class="skill">
+                                                                                    <strong class="txt3">MySQL</strong>
+                                                                                </td>
+                                                                                <td valign="top">
+                                                                                    <span class="skbg">
+                                                                                    <span class="skco">熟练</span>
+                                                                                    </span>
+                                                                                </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                                                                                        </tr>
+                                                                                                                                                                                                                                                                                                                                            <tr>
+                                                                                                                                                                                                                    <td class="tb2 cell yb" valign="top">
+                                                                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                <td class="skill">
+                                                                                    <strong class="txt3">Linux</strong>
+                                                                                </td>
+                                                                                <td valign="top">
+                                                                                    <span class="skbg">
+                                                                                    <span class="skco">一般</span>
+                                                                                    </span>
+                                                                                </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                                                                                                                                                                                                                                                                                                                                                                        <td class="tb2 cell sl" valign="top">
+                                                                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                <td class="skill">
+                                                                                    <strong class="txt3">Python</strong>
+                                                                                </td>
+                                                                                <td valign="top">
+                                                                                    <span class="skbg">
+                                                                                    <span class="skco">熟练</span>
+                                                                                    </span>
+                                                                                </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                                                                                        </tr>
+                                                                                                                                                                                                                                                                </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                                                        <!--证书-->
+                                                                            <table cellspacing="0" cellpadding="0" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="tit">证书</td>
+                                                </tr>
+                                                                                                                                                    <tr>
+                                                                                                                <td class="p15 pd_20">
+                                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td valign="top" class="tb1">
+                                                                    <strong class="txt3">
+                                                                        心肺复苏急救员证                                                                    </strong>
+                                                                                                                                        </td>
+                                                                    <td valign="top" class="time">2024/11</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                                                                                                                    <tr>
+                                                                                                                <td class="p15 pd_20 con">
+                                                                                                                    <table cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td valign="top" class="tb1">
+                                                                    <strong class="txt3">
+                                                                        大学英语六级                                                                    </strong>
+                                                                                                                                        </td>
+                                                                    <td valign="top" class="time">2022/6</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                                                                                                            </tbody>
+                                        </table>
+                                                                        <!--培训经历-->
+                                                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                                <!--附加信息-->
+                
+                <!--个人作品-->
+                                <!--附加信息-->
+                            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
